@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"oh-jka.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="Docker 学习笔记  此笔记为个人向笔记，感觉太多事情不写下来过段时间就忘了，所以还是把重要的东西记录下来 建议游客学习时观看官方性教程文档，遇到问题去stack overflow或github issue等寻找解决方法 本博客参考资料：Docker-从入门到实战  0 容器 Docker使用Go进行开发，基于Linux内核的cgroup、namespace以及OverlayFS类的Union">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker学习笔记">
+<meta property="og:url" content="https://oh-jka.github.io/2022/07/16/2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="JKA&#39;s Blog">
+<meta property="og:description" content="Docker 学习笔记  此笔记为个人向笔记，感觉太多事情不写下来过段时间就忘了，所以还是把重要的东西记录下来 建议游客学习时观看官方性教程文档，遇到问题去stack overflow或github issue等寻找解决方法 本博客参考资料：Docker-从入门到实战  0 容器 Docker使用Go进行开发，基于Linux内核的cgroup、namespace以及OverlayFS类的Union">
+<meta property="og:locale">
+<meta property="og:image" content="https://oh-jka.github.io/.io//2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220114225038318.png">
+<meta property="og:image" content="https://oh-jka.github.io/.io//2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220114231132991.png">
+<meta property="article:published_time" content="2022-07-16T14:04:41.461Z">
+<meta property="article:modified_time" content="2022-06-28T06:05:26.726Z">
+<meta property="article:author" content="Kaian Jiang">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oh-jka.github.io/.io//2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220114225038318.png">
+
+<link rel="canonical" href="https://oh-jka.github.io/2022/07/16/2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>docker学习笔记 | JKA's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JKA's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://oh-jka.github.io/2022/07/16/2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Kaian Jiang">
+      <meta itemprop="description" content="Kaian的网络自留地">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JKA's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker学习笔记
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-07-16 22:04:41" itemprop="dateCreated datePublished" datetime="2022-07-16T22:04:41+08:00">2022-07-16</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-06-28 14:05:26" itemprop="dateModified" datetime="2022-06-28T14:05:26+08:00">2022-06-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" itemprop="url" rel="index"><span itemprop="name">学习笔记</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="docker-学习笔记">Docker 学习笔记</h1>
+<blockquote>
+<p>此笔记为个人向笔记，感觉太多事情不写下来过段时间就忘了，所以还是把重要的东西记录下来</p>
+<p>建议游客学习时观看官方性教程文档，遇到问题去<code>stack overflow</code>或<code>github issue</code>等寻找解决方法</p>
+<p>本博客参考资料：<a target="_blank" rel="noopener" href="https://yeasy.gitbook.io/docker_practice/">Docker-从入门到实战</a></p>
+</blockquote>
+<h2 id="容器">0 容器</h2>
+<p>Docker使用Go进行开发，基于Linux内核的<code>cgroup</code>、<code>namespace</code>以及<code>OverlayFS</code>类的<code>Union Fs</code>等技术，对进程进行封装隔离，属于操作系统层面的虚拟化技术。从下图可以看出：隔离的进程是独立于宿主和其他的隔离的进程，因此也被称为容器。</p>
+<blockquote>
+<p>容器技术起源于Linux，是一种内核虚拟化技术，提供轻量级的虚拟化，以便隔离进程和资源。尽管容器技术已经出现很久，却是随着Docker的出现而变得广为人知。</p>
+</blockquote>
+<figure>
+<img src="/.io//2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220114225038318.png" alt="image-20220114225038318">
+<figcaption aria-hidden="true">image-20220114225038318</figcaption>
+</figure>
+<p>其他问题：</p>
+<ol type="1">
+<li><p>虚拟机与容器</p>
+<p>与上图对应的虚拟机的结构如下：</p>
+<figure>
+<img src="/.io//2022-01-14-docker%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220114231132991.png" alt="image-20220114231132991">
+<figcaption aria-hidden="true">image-20220114231132991</figcaption>
+</figure></li>
+</ol>
+<ul>
+<li><p>Docker不是虚拟机，而是容器。虚拟机目标通常是抽象出硬件以支持操作系统运行，而容器本质上是基于应用的。</p></li>
+<li><p>Tips：<code>wine</code>也是容器，在容器里虚拟windows环境。</p></li>
+</ul>
+<ol start="2" type="1">
+<li><code>Linux Container</code>与<code>Windows Container</code></li>
+</ol>
+<p>作为Linux用户，我经常想：能不能使用Docker这类轻量、快速的容器技术去替代Windows虚拟机呢？（Wine跑IDA软件的效果还可以，但是office和大量日用软件很多都没法跑起来，板载8G内存用户叫苦不连）</p>
+<ul>
+<li><p>从第一章图中可以看得：Docker是建立在操作系统之上的，使用底层操作系统资源和驱动程序，这意味<code>Linux Container</code>只能运行在Linux之上，而<code>Windows Container</code>只能运行在Windows上。</p></li>
+<li><p>如果需要想在<code>Windows</code>上使用<code>Linux Container</code>则基本都需要使用<code>Hyper-V</code>或<code>WSL</code>等虚拟机，然后在Linux虚拟机上使用<code>Linux Container</code>。在Linux上使用<code>Windows Container</code>同理需要使用虚拟机。</p></li>
+</ul>
+<h2 id="基本概念">1 基本概念</h2>
+<p>Docker包括三个基本概念：</p>
+<ul>
+<li><p>镜像（<code>Image</code>）</p>
+<p>Docker镜像相当于一个特殊文件系统，除了提供容器运行时所需的程序、库、资源和配置等文件外，还包含一些运行时准备的配置（如环境变量、用户等），镜像不包含任何动态数据。</p>
+<p>镜像被设计成分层存储的架构，镜像是由多层文件系统联合组成，镜像构建是会一层层构建，每一层构建完不再改变。（比如删除前一层文件，实际上仅是在<code>当前层</code>标记目标文件为已删除）。因此每层应只包含最基础的东西，额外的东西应该在构建结束后立即删除。</p></li>
+<li><p>容器（<code>Container</code>)</p>
+<p>容器的实质是进程，但是是运行在属于自己的独立的命名空间，因此可以拥有自己的<code>root</code>文件系统、网络配置、进程空间、甚至是自己的用户ID空间。每一个容器运行时，都是以镜像为基础，在其上创建一个当前容器的存储层，称这个为容器运行时读写而准备的存储层为<code>容器存储层</code>。</p>
+<blockquote>
+<p>按照 Docker
+最佳实践的要求，容器不应该向其存储层内写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用数据卷（Volume）或者绑定宿主目录，在这些位置进行读写会跳过容器存储层。</p>
+</blockquote></li>
+<li><p>仓库（<code>Repository</code>)</p>
+<p>一个<code>Docker Reistry</code>可以包含多个<code>仓库（Repository）</code>；每个仓库可以包含多个<code>标签（Tag）</code>，每个标签对应一个镜像。</p>
+<p>可以通过<code>&lt;仓库名&gt;:&lt;标签&gt;</code>来指定镜像：</p>
+<ul>
+<li>仓库名通常为<code>&lt;用户名&gt;/&lt;软件名&gt;</code>，用户名缺省为<code>library</code>；</li>
+<li>标签缺省为<code>latest</code>。</li>
+</ul></li>
+</ul>
+<h3 id="安装">2 安装</h3>
+<p>注意要<strong>建立docker用户组</strong></p>
+<p>默认情况下，<code>docker</code>命令会使用<code>Unix socket</code>与Docker引擎通信，而只有<code>root</code>用户和<code>docker</code>组用户才可以访问Docker引擎的Unix
+socket.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 建立`docker`组：</span></span><br><span class="line">$ sudo groupadd docker</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将当前用户加入docker组</span></span><br><span class="line">$ sudo usermod -aG docker <span class="variable">$USER</span></span><br><span class="line"><span class="comment"># 退出终端，并重新登入</span></span><br></pre></td></tr></table></figure>
+<h2 id="使用镜像">3 使用镜像</h2>
+<h3 id="获取镜像">3.1 获取镜像</h3>
+<p>通过<code>docker pull 仓库名</code>获取镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker pull [选项] [Docker Registry 地址[:端口号]/]仓库名[:标签]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>docker镜像仓库地址：<code>&lt;域名/IP&gt;[:端口号]</code>。默认地址为Docker
+Hub（docker.io）</li>
+</ul>
+<p>测试运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker run -it --<span class="built_in">rm</span> ubuntu:18.04 bash</span><br></pre></td></tr></table></figure>
+<ul>
+<li>-i 交互式操作</li>
+<li>-t
+终端，<code>-i</code>可以进行交互式操作，但是没有<code>prompt</code></li>
+<li>--rm 运行后删除，否则运行后只是<code>终止(exited)</code></li>
+</ul>
+<h3 id="列出镜像">3.2 列出镜像</h3>
+<p>列出已经下载的镜像（顶层镜像）:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker image <span class="built_in">ls</span></span><br></pre></td></tr></table></figure>
+<p>列出所有镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker image <span class="built_in">ls</span> -a</span><br></pre></td></tr></table></figure>
+<p>Docker为了加速镜像构建、重复利用资源，docker会利用<code>中间层镜像</code>，是其他上层镜像所依赖的镜像。这些无标签镜像不应该删除，否则会导致上层镜像因为缺失依赖。</p>
+<p>删除虚悬镜像：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker image prune</span><br></pre></td></tr></table></figure>
+<h3 id="删除本地镜像">3.3 删除本地镜像</h3>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker image <span class="built_in">rm</span> [选项] &lt;镜像1&gt; [&lt;镜像2&gt; ...]</span><br></pre></td></tr></table></figure>
+<p>可以用 ID、镜像名、摘要 删除镜像</p>
+<p>可以与docker image ls 命令来配合使用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ docker image <span class="built_in">rm</span> $(docker image <span class="built_in">ls</span> -q -f before=mongo:3.2)</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/16/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/" rel="next" title="《Asymmetrical Vertical Federated Learning》阅读笔记">
+      《Asymmetrical Vertical Federated Learning》阅读笔记 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#docker-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0"><span class="nav-number">1.</span> <span class="nav-text">Docker 学习笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8"><span class="nav-number">1.1.</span> <span class="nav-text">0 容器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">1.2.</span> <span class="nav-text">1 基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.2.1.</span> <span class="nav-text">2 安装</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%95%9C%E5%83%8F"><span class="nav-number">1.3.</span> <span class="nav-text">3 使用镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-number">1.3.1.</span> <span class="nav-text">3.1 获取镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%97%E5%87%BA%E9%95%9C%E5%83%8F"><span class="nav-number">1.3.2.</span> <span class="nav-text">3.2 列出镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%9C%AC%E5%9C%B0%E9%95%9C%E5%83%8F"><span class="nav-number">1.3.3.</span> <span class="nav-text">3.3 删除本地镜像</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kaian Jiang"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Kaian Jiang</p>
+  <div class="site-description" itemprop="description">Kaian的网络自留地</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">4</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">4</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/oh-jka" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;oh-jka" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/919863493@qq.com" title="E-Mail → 919863493@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kaian Jiang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

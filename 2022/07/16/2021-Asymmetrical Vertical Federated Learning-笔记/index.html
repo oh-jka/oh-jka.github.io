@@ -20,30 +20,37 @@
     var CONFIG = {"hostname":"oh-jka.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Kaian的网络自留地">
-<meta property="og:type" content="website">
-<meta property="og:title" content="JKA&#39;s Blog">
-<meta property="og:url" content="https://oh-jka.github.io/index.html">
+  <meta name="description" content="论文：Y, Zhang X, Wang L. Asymmetrical vertical federated learning[J]. arXiv preprint arXiv:2004.07427, 2020. Abstract 在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。而在现实应用中，样本ID是最强的列标识，由此引发很多人的关注。为了缓解对于ID隐私的担忧，本">
+<meta property="og:type" content="article">
+<meta property="og:title" content="《Asymmetrical Vertical Federated Learning》阅读笔记">
+<meta property="og:url" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="JKA&#39;s Blog">
-<meta property="og:description" content="Kaian的网络自留地">
+<meta property="og:description" content="论文：Y, Zhang X, Wang L. Asymmetrical vertical federated learning[J]. arXiv preprint arXiv:2004.07427, 2020. Abstract 在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。而在现实应用中，样本ID是最强的列标识，由此引发很多人的关注。为了缓解对于ID隐私的担忧，本">
 <meta property="og:locale">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717100303601.png">
+<meta property="article:published_time" content="2022-07-16T14:11:01.298Z">
+<meta property="article:modified_time" content="2022-07-17T02:03:10.351Z">
 <meta property="article:author" content="Kaian Jiang">
+<meta property="article:tag" content="隐私计算">
+<meta property="article:tag" content="PIS">
+<meta property="article:tag" content="联邦学习">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717100303601.png">
 
-<link rel="canonical" href="https://oh-jka.github.io/">
+<link rel="canonical" href="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-Hans'
   };
 </script>
 
-  <title>JKA's Blog</title>
+  <title>《Asymmetrical Vertical Federated Learning》阅读笔记 | JKA's Blog</title>
   
 
 
@@ -151,9 +158,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
@@ -169,10 +177,9 @@
       <meta itemprop="name" content="JKA's Blog">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/" class="post-title-link" itemprop="url">《Asymmetrical Vertical Federated Learning》阅读笔记</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          《Asymmetrical Vertical Federated Learning》阅读笔记
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -211,7 +218,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <p>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2004.07427">Y, Zhang X, Wang L.
+        <p>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2004.07427">Y, Zhang X, Wang L.
 Asymmetrical vertical federated learning[J]. arXiv preprint
 arXiv:2004.07427, 2020.</a></p>
 <h2 id="abstract">Abstract</h2>
@@ -254,96 +261,35 @@ Learning</h3>
 <h3 id="symmetrical-and-asymmetrical">2.3 Symmetrical and
 Asymmetrical</h3>
 
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/" rel="tag"># 隐私计算</a>
+              <a href="/tags/PIS/" rel="tag"># PIS</a>
+              <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 联邦学习</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
-    <link itemprop="mainEntityOfPage" href="https://oh-jka.github.io/2022/07/16/hello-world/">
+        
 
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.png">
-      <meta itemprop="name" content="Kaian Jiang">
-      <meta itemprop="description" content="Kaian的网络自留地">
-    </span>
 
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JKA's Blog">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/07/16/hello-world/" class="post-title-link" itemprop="url">Hello World</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 2022-07-16 19:00:36" itemprop="dateCreated datePublished" datetime="2022-07-16T19:00:36+08:00">2022-07-16</time>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very
-first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for
-more info. If you get any problems when using Hexo, you can find the
-answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or
-you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
-<h2 id="quick-start">Quick Start</h2>
-<h3 id="create-a-new-post">Create a new post</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
-<h3 id="run-server">Run server</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
-<h3 id="generate-static-files">Generate static files</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
-<h3 id="deploy-to-remote-sites">Deploy to remote sites</h3>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
-
-      
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/16/hello-world/" rel="prev" title="Hello World">
+      <i class="fa fa-chevron-left"></i> Hello World
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-
   
 
 
@@ -396,6 +342,9 @@ you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hex
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">1 Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#problem-definition"><span class="nav-number">3.</span> <span class="nav-text">2 Problem Definition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vertical-federated-learning"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 Vertical Federated
+Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#private-set-intersection"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 Private Set Intersection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#symmetrical-and-asymmetrical"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 Symmetrical and
+Asymmetrical</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
