@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 6.2.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"oh-jka.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="视频：【隐私计算技术】隐私求交PSI技术的原理及发展  介绍了隐私求交的基本定义以及常见应用。介绍了常用的PSI协议以及它们的原理并进行了效率分析。基于哈希的PSI效率上达到了低通信量、低计算量，但在安全方面可能遭到攻击，故现在已经不采用这种方法进行隐私求交；基于公钥密码学的PSI实现了中计算量、低通信量，同时也保证了整个协议的安全。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="隐私求交技术的原理、发展及应用">
+<meta property="og:url" content="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="JKA&#39;s Blog">
+<meta property="og:description" content="视频：【隐私计算技术】隐私求交PSI技术的原理及发展  介绍了隐私求交的基本定义以及常见应用。介绍了常用的PSI协议以及它们的原理并进行了效率分析。基于哈希的PSI效率上达到了低通信量、低计算量，但在安全方面可能遭到攻击，故现在已经不采用这种方法进行隐私求交；基于公钥密码学的PSI实现了中计算量、低通信量，同时也保证了整个协议的安全。">
+<meta property="og:locale">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717174040545.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717174308905.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717174455431.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717193239879.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717193441069.png">
+<meta property="article:published_time" content="2022-07-17T03:04:33.000Z">
+<meta property="article:modified_time" content="2022-07-18T08:18:07.583Z">
+<meta property="article:author" content="Kaian Jiang">
+<meta property="article:tag" content="隐私计算">
+<meta property="article:tag" content="PSI">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717174040545.png">
+
+<link rel="canonical" href="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-Hans'
+  };
+</script>
+
+  <title>隐私求交技术的原理、发展及应用 | JKA's Blog</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">JKA's Blog</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-Hans">
+    <link itemprop="mainEntityOfPage" href="https://oh-jka.github.io/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.png">
+      <meta itemprop="name" content="Kaian Jiang">
+      <meta itemprop="description" content="Kaian的网络自留地">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JKA's Blog">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          隐私求交技术的原理、发展及应用
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-07-17 11:04:33" itemprop="dateCreated datePublished" datetime="2022-07-17T11:04:33+08:00">2022-07-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">Edited on</span>
+                <time title="Modified: 2022-07-18 16:18:07" itemprop="dateModified" datetime="2022-07-18T16:18:07+08:00">2022-07-18</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E8%A7%86%E9%A2%91%E8%A7%82%E7%9C%8B/" itemprop="url" rel="index"><span itemprop="name">视频观看</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>视频：<a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1PT411J7rm?spm_id_from=333.337.search-card.all.click&amp;vd_source=0d3fa48307c38b76dfdfa60ed4b44b42">【隐私计算技术】隐私求交PSI技术的原理及发展</a></p>
+<blockquote>
+<p>介绍了隐私求交的基本定义以及常见应用。介绍了常用的PSI协议以及它们的原理并进行了效率分析。基于哈希的PSI效率上达到了低通信量、低计算量，但在安全方面可能遭到攻击，故现在已经不采用这种方法进行隐私求交；基于公钥密码学的PSI实现了中计算量、低通信量，同时也保证了整个协议的安全。</p>
+</blockquote>
+<span id="more"></span>
+<h1 id="简介">简介</h1>
+<p><code>PSI(Private Set Intersection)</code>是一种<u>特殊的安全计算协议</u></p>
+<ul>
+<li>参与方数量&gt;= 2</li>
+<li>功能：计算参与方数据的交集</li>
+<li>安全：不泄露交集外的元素（需要Provable Security）</li>
+</ul>
+<p>已有工作的两个主要思路：</p>
+<ul>
+<li>通用安全计算（MPC, HE, ……）：天然支持后续安全计算</li>
+<li>轻量级密码原语（OT, VOLE, ……）：效率高</li>
+</ul>
+<h2 id="两方半诚实psi">两方半诚实PSI</h2>
+<p>挑战与要求：</p>
+<ol type="1">
+<li><strong>隐私非交集元素（hiding)</strong>
+<ul>
+<li>密码学安全的"隐藏"</li>
+<li>当两个元素不等时，必须对比较结果添加<code>噪声（noise）</code>以防止不匹配的元素不会被穷举计算</li>
+</ul></li>
+<li><strong>计算交集元素（comparing）</strong>
+<ul>
+<li>当两元素相等时，相等的结果应当<strong>以某种方式（明文/支持后续安全计算）</strong>的方式公布</li>
+</ul></li>
+<li><strong>高效率（efficiency）</strong>
+<ul>
+<li>PSI协议应当在面对大规模应用时高效可用</li>
+</ul></li>
+</ol>
+<h1 id="常用的psi协议及原理">常用的PSI协议及原理</h1>
+<h2 id="hash-based-psiinsecure">Hash-based PSI（insecure）</h2>
+<p>密码学安全的哈希函数的安全性质包括：</p>
+<ul>
+<li><strong>单向性（抗原像攻击）</strong>：对任意给定的Hash码 <span class="math inline">\(h\)</span>，找到满足 <span class="math inline">\(H(x)=h\)</span> 的 <span class="math inline">\(x\)</span> 在计算上是不可行的</li>
+<li><strong>抗第二原像攻击（抗弱碰撞性）</strong>：对任何给定的分快<span class="math inline">\(x\)</span>，找到满足 <span class="math inline">\(y\ne x\)</span> 且 <span class="math inline">\(H(x)=H(y)\)</span> 的 <span class="math inline">\(y\)</span> 在计算上是不可行的</li>
+<li><strong>抗碰撞攻击（抗强碰撞性</strong>）：找到任何满足<span class="math inline">\(H(x)=H(y)\)</span> 的偶对<span class="math inline">\((x,y)\)</span>在计算上是不可行的</li>
+</ul>
+<hr>
+<p><img src="/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717174040545.png"></p>
+<hr>
+<p>效率：低计算量、低通信量</p>
+<p>安全：<strong>可能遭到攻击</strong></p>
+<ol type="1">
+<li>输入数据值小时遭到穷举攻击和字典攻击</li>
+<li>不满足前向安全性</li>
+</ol>
+<h2 id="pkc-based-psi">PKC-based PSI</h2>
+<h3 id="psi-based-on-dh">PSI based on DH</h3>
+<p><strong>基本思想：具有<code>交换（commutative）</code>性质的"双重加密"</strong>。（交换性质是进行比较的基础）</p>
+<hr>
+<p><img src="/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717174308905.png"></p>
+<hr>
+<p>效率：中计算量、低通信量（仍为PSI的主流实现方式）</p>
+<p>安全：PKC-based安全（基于离散对数问题（Discrete Logarithm Problem,
+DLP））</p>
+<h3 id="psi-based-on-blind-rsa">PSI based on Blind RSA</h3>
+<p>通过比较<span class="math inline">\(H(x_i)^d\)</span> 和<span class="math inline">\(H(y_i)^d\)</span> 求交。Receiver不能直接发送<span class="math inline">\(H(x_i)\)</span>，因此先引入掩码，在完成目标运算后消除掩码。</p>
+<hr>
+<p><img src="/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717174455431.png"></p>
+<hr>
+<p>效率：中计算量、低通信量（接收方的计算量 <span class="math inline">\(\ll\)</span>
+发送方计算量——解密操作耗时大于加密）</p>
+<p>安全：PKC-based安全</p>
+<h2 id="oprf-based-psi">OPRF-based PSI</h2>
+<p><code>伪随机函数（Pseudorandom Function, PRF)</code>：<span class="math inline">\(\forall k\in \mathcal{K},m\in
+\{0,1\}^l\)</span>，有F<span class="math inline">\((k,m)\approx Uniform\
+Random\)</span></p>
+<p><code>不经意伪随机函数（Oblivious PRF，OPRF）</code>：给定一个来自Sender（Bob）的密钥
+<span class="math inline">\(k\)</span>
+和一个来自Receiver（Alice）的输入元素<span class="math inline">\(m\)</span>:</p>
+<ul>
+<li>Receiver知道 <span class="math inline">\(m\)</span> 和 <span class="math inline">\(F(k,m)\)</span>，但是不知道<span class="math inline">\(k\)</span></li>
+<li>Sender只知道<span class="math inline">\(k\)</span>，但不知道计算结果和输入数据<span class="math inline">\(m\)</span></li>
+</ul>
+<p>流程示意如下图所示：</p>
+<p><img src="/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717193239879.png"></p>
+<p>使用OPRF构造PSI：对于Receiver拥有的每一个数据 <span class="math inline">\(x_i\)</span>，都会产生一个对应的 <span class="math inline">\(k_i\)</span>，而Sender会利用 <span class="math inline">\(k_i\)</span> 对其每一个数据 <span class="math inline">\(y_j\)</span> 计算 <span class="math inline">\(F(k_i,y_j)\)</span>，Receiver比对 <span class="math inline">\(F(k_i,x_i)\)</span> 和 <span class="math inline">\(F(k_i,y_j)\)</span>。</p>
+<hr>
+<p><img src="/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/image-20220717193441069.png"></p>
+<hr>
+<ul>
+<li><p>Hiding：基于OPRF（通过秘密函数OPRF，使得Sender不知道Receiver的数据，而Receiver不知道秘密函数构造）</p></li>
+<li><p>Comparing；比较数据经过秘密函数输出的结果</p></li>
+<li><p>Efficiency：高计算量、高通信量（本地比较和通信都是<span class="math inline">\(O(n^2)\)</span>）</p></li>
+</ul>
+<p>可通过<code>Cuckoo Hashing + OPRF</code>构造PSI（KKRT PSI
+Protocol），实现<span class="math inline">\(O(n)\)</span>
+规模的OPRF和本地比较</p>
+<h1 id="psi需求与应用">PSI需求与应用</h1>
+<p>除了常见的白/黑名单，撞库等，还有……</p>
+<h2 id="交集使用">交集使用</h2>
+<p>动机：<strong>交集可能并不是PSI参与方间的常识（交集中的数据可能属于其他人）</strong>。比如：Alice使用相同ID在银行A和银行B都注册了信息，但是银行A和B不能通过PSI泄露Alice的联合明文信息。</p>
+<p>挑战：交集“可用不可见”（PSI输出不能是直接的全部明文）</p>
+<p>用法：</p>
+<ol type="1">
+<li>交集保密，基数（cardinality）只能向认证方泄露</li>
+<li>交集保密，但PSI的秘密输出支持后续安全计算</li>
+<li>交集保密，但是<em>需要习惯（but still need to get
+used，啥意思，看不懂）</em>，比如来联合广告营销</li>
+</ol>
+<h2 id="多方psi">多方PSI</h2>
+<ul>
+<li><strong>常规多方PSI</strong></li>
+</ul>
+<p>动机：需要N参与方的交集</p>
+<p>挑战：任意两方间的交集不能被泄露</p>
+<p>方法：1、PHE+<code>多项式表示（Polynomial representation）</code> ;
+2、OPPRF</p>
+<ul>
+<li><strong>特殊多方PSI</strong></li>
+</ul>
+<p>动机：需要计算一些两方间交集，交集结果会泄露给特殊的一些参与方</p>
+<p>挑战：需求需要视情况而定，需要客制化的解决方案</p>
+<p>方法：常规的PSI协议加上客制化</p>
+<h2 id="计算模型">计算模型</h2>
+<ul>
+<li><p><strong>单向模型（One-way Model）</strong></p>
+<p>动机：只<strong>有一方应当知道交集</strong>。比如，客户端向一个新的社交媒体服务提交联系人列表，客户端应该知交集，而服务器应当对客户端的数据一无所知（或只知道输入数据大小）。</p></li>
+<li><p><strong>共有模型（Mutual Model）</strong></p>
+<p>动机：两方都应当知道交集。比如，寻找两个银行的共有客户。</p></li>
+<li><p><strong>外包PSI（Outsourced/Delegated/Server-Aided
+PSI）</strong></p>
+<p>两个客户端<strong>在不可信第三方的帮助下</strong>在他们的外包数据上完成PSI计算。</p>
+<p>动机：参与方无法完成PSI计算，比如参与方只拥有资源受限的设备</p>
+<p>挑战：第三方只参与计算，但不应当获得最终结果（即使是cardinality这样的数据）</p></li>
+</ul>
+<h2 id="安全模型">安全模型</h2>
+<ul>
+<li><p><strong>诚实-好奇模型安全PSI（Semi-Honest Secure
+PSI）</strong></p>
+<p>动机：简单高效（目前大多数PSI协议都是在诚实-好奇的假设下实现的）</p>
+<p>挑战：安全假设太强，只考虑了被动（passive）敌手</p>
+<p>方法：基于DH、OPRF等的PSI</p></li>
+<li><p><strong>恶意模型安全PSI（Malicious Secure PSI)</strong></p>
+<p>动机：是更符合现实的，更进一步的安全假设，考虑恶意敌手</p>
+<p>挑战：更多的计算和通信开销</p>
+<p>方法：基于额外身份验证的 PSI 协议等</p></li>
+</ul>
+<h2 id="非对称psi">非对称PSI</h2>
+<p>动机：一方拥有元素的数量比另一方大得多（弱方拥有的大部分元素可能都在交集中出现）</p>
+<p>方法：1、ECC-OPRF-PSI；2、FHE PSI</p>
+<h2 id="其他特殊需求">其他特殊需求</h2>
+<ul>
+<li>Size-hiding</li>
+<li>Business scenario with customized requirements</li>
+</ul>
+<h1 id="psi最新进展">PSI最新进展</h1>
+<ul>
+<li>优化离线阶段
+<ul>
+<li>使用最新的<code>OT</code>技术</li>
+<li>使用<code>VOLE</code>替换OT</li>
+</ul></li>
+<li>使用新的原语（primitives）替换Cuckoo Hashing
+<ul>
+<li>引入<code>字符串的探测和异或（Probe-and-Xor-of-Strings(PaXos)）</code></li>
+<li>引入<code>不经意的键值对存储（Oblivious Key-Value Store (OKVS)）</code></li>
+</ul></li>
+<li>支持在交集上进行后续的安全计算</li>
+<li>亿级计算：高带宽 + 高算力，分钟级别完成</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/" rel="tag"># 隐私计算</a>
+              <a href="/tags/PSI/" rel="tag"># PSI</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/" rel="prev" title="《Asymmetrical Vertical Federated Learning》阅读笔记">
+      <i class="fa fa-chevron-left"></i> 《Asymmetrical Vertical Federated Learning》阅读笔记
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%A4%E6%96%B9%E5%8D%8A%E8%AF%9A%E5%AE%9Epsi"><span class="nav-number">1.1.</span> <span class="nav-text">两方半诚实PSI</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E7%9A%84psi%E5%8D%8F%E8%AE%AE%E5%8F%8A%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">常用的PSI协议及原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#hash-based-psiinsecure"><span class="nav-number">2.1.</span> <span class="nav-text">Hash-based PSI（insecure）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#pkc-based-psi"><span class="nav-number">2.2.</span> <span class="nav-text">PKC-based PSI</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#psi-based-on-dh"><span class="nav-number">2.2.1.</span> <span class="nav-text">PSI based on DH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#psi-based-on-blind-rsa"><span class="nav-number">2.2.2.</span> <span class="nav-text">PSI based on Blind RSA</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#oprf-based-psi"><span class="nav-number">2.3.</span> <span class="nav-text">OPRF-based PSI</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#psi%E9%9C%80%E6%B1%82%E4%B8%8E%E5%BA%94%E7%94%A8"><span class="nav-number">3.</span> <span class="nav-text">PSI需求与应用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%A4%E9%9B%86%E4%BD%BF%E7%94%A8"><span class="nav-number">3.1.</span> <span class="nav-text">交集使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E6%96%B9psi"><span class="nav-number">3.2.</span> <span class="nav-text">多方PSI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AE%A1%E7%AE%97%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.3.</span> <span class="nav-text">计算模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%A8%A1%E5%9E%8B"><span class="nav-number">3.4.</span> <span class="nav-text">安全模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9D%9E%E5%AF%B9%E7%A7%B0psi"><span class="nav-number">3.5.</span> <span class="nav-text">非对称PSI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%89%B9%E6%AE%8A%E9%9C%80%E6%B1%82"><span class="nav-number">3.6.</span> <span class="nav-text">其他特殊需求</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#psi%E6%9C%80%E6%96%B0%E8%BF%9B%E5%B1%95"><span class="nav-number">4.</span> <span class="nav-text">PSI最新进展</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Kaian Jiang"
+      src="/images/avatar.png">
+  <p class="site-author-name" itemprop="name">Kaian Jiang</p>
+  <div class="site-description" itemprop="description">Kaian的网络自留地</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/oh-jka" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;oh-jka" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="/919863493@qq.com" title="E-Mail → 919863493@qq.com"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Kaian Jiang</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

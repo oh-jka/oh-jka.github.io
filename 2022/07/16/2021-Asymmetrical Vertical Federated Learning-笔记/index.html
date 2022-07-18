@@ -20,19 +20,29 @@
     var CONFIG = {"hostname":"oh-jka.github.io","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="论文：Y, Zhang X, Wang L. Asymmetrical vertical federated learning[J]. arXiv preprint arXiv:2004.07427, 2020. Abstract 在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。而在现实应用中，样本ID是最强的列标识，由此引发很多人的关注。为了缓解对于ID隐私的担忧，本">
+  <meta name="description" content="论文：Y, Zhang X, Wang L. Asymmetrical vertical federated learning[J]. arXiv preprint arXiv:2004.07427, 2020.  在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。为了缓解对于ID隐私的担忧，本文正式提出非对称纵向联邦学习的概念，并且阐述了保护样本ID的方法。 标准的隐私">
 <meta property="og:type" content="article">
 <meta property="og:title" content="《Asymmetrical Vertical Federated Learning》阅读笔记">
 <meta property="og:url" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/index.html">
 <meta property="og:site_name" content="JKA&#39;s Blog">
-<meta property="og:description" content="论文：Y, Zhang X, Wang L. Asymmetrical vertical federated learning[J]. arXiv preprint arXiv:2004.07427, 2020. Abstract 在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。而在现实应用中，样本ID是最强的列标识，由此引发很多人的关注。为了缓解对于ID隐私的担忧，本">
+<meta property="og:description" content="论文：Y, Zhang X, Wang L. Asymmetrical vertical federated learning[J]. arXiv preprint arXiv:2004.07427, 2020.  在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。为了缓解对于ID隐私的担忧，本文正式提出非对称纵向联邦学习的概念，并且阐述了保护样本ID的方法。 标准的隐私">
 <meta property="og:locale">
 <meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717100303601.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717115752191.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717121516433.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717123409736.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717154849377.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718120809184.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718121752417.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718121809066.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718125443368.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718130543639.png">
+<meta property="og:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718130909464.png">
 <meta property="article:published_time" content="2022-07-16T14:11:01.298Z">
-<meta property="article:modified_time" content="2022-07-17T02:03:10.351Z">
+<meta property="article:modified_time" content="2022-07-18T08:10:51.272Z">
 <meta property="article:author" content="Kaian Jiang">
 <meta property="article:tag" content="隐私计算">
-<meta property="article:tag" content="PIS">
+<meta property="article:tag" content="PSI">
 <meta property="article:tag" content="联邦学习">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://oh-jka.github.io/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717100303601.png">
@@ -195,7 +205,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-07-17 10:03:10" itemprop="dateModified" datetime="2022-07-17T10:03:10+08:00">2022-07-17</time>
+                <time title="Modified: 2022-07-18 16:10:51" itemprop="dateModified" datetime="2022-07-18T16:10:51+08:00">2022-07-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -221,45 +231,262 @@
         <p>论文：<a target="_blank" rel="noopener" href="https://arxiv.org/abs/2004.07427">Y, Zhang X, Wang L.
 Asymmetrical vertical federated learning[J]. arXiv preprint
 arXiv:2004.07427, 2020.</a></p>
-<h2 id="abstract">Abstract</h2>
-<p>在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。而在现实应用中，样本ID是最强的列标识，由此引发很多人的关注。为了缓解对于ID隐私的担忧，本文正式提出非对称纵向联邦学习的概念，并且阐述了保护样本ID的方法。
+<blockquote>
+<p>在联邦学习中，通常会使用基于ID的样本对齐方法，但却很少关注保护ID的隐私。为了缓解对于ID隐私的担忧，本文正式提出<strong>非对称纵向联邦学习</strong>的概念，并且阐述了保护样本ID的方法。
 标准的隐私求交通常在非对称纵向联邦学习的样本对齐阶段被采用，本文相应的提出了一种<strong>Pohlig-Hellman的实现机制</strong>。本文还提出了一种<strong>真正的虚拟（genuine
 with dummy ）</strong>方法来实现非对称联邦学习训练。</p>
-<h2 id="introduction">1 Introduction</h2>
-<p>在联邦学习中，尤其是在垂直场景中，在利用它们对齐分布数据集后，忽略对样本ID信息泄露是常见但是不合理的。实际应用中，参与方通常是具有竞争关系的公司或者机构，因此，一方面，参与者不允许披露它们的样本IDl；另一方面，现实生活中存在着<strong>不对称的联邦，其中一部分参与者是对ID隐私要求很高的小公司，而另一部分是ID隐私不太关心的大公司</strong>(交集一公布，小样本的ID隐私泄露很严重，考虑极端情况，可能会完全泄露)。这种不平衡的设置需要一个纵向联邦学习系统来区分联邦的”强“和“弱”侧，并且考虑到他们特定的隐私保护需求。</p>
+</blockquote>
+<span id="more"></span>
+<h1 id="introduction">Introduction</h1>
+<p>在联邦学习中，尤其是在纵向场景中，在利用ID对齐分布数据集后，忽略样本的D信息泄露是常见但是不合理的。实际应用中，参与方通常是具有竞争关系的公司或者机构，因此，一方面，参与者不允许披露它们的样本ID；另一方面，现实生活中存在着<strong>不对称的联邦，其中一部分参与者是对ID隐私要求很高的小公司，而另一部分是对ID隐私不太关心的大公司</strong>(交集一旦公布，小公司的ID隐私泄露很严重，考虑极端情况，甚至会完全泄露)。这种不平衡的设置需要一个纵向联邦学习系统来区分联邦的”强“和“弱”侧，并且考虑到他们特定的隐私保护需求。</p>
 <p>本文将纵向联邦学习分为<code>对称型</code>和<code>非对称型</code>，以便设计保护ID的联邦学习算法。本文的贡献包括：</p>
 <ol type="1">
 <li><p>提出非对称纵向联邦学习的概念。</p></li>
 <li><p>吸收标准隐私求交协议以在非对称联邦学习系统中实现非对称ID对齐。此外，我们提供一种Pohlig-Hellman的适配隐私求交的实现。</p></li>
 <li><p>我们提出了一种真正的虚拟方法以实现不对称的联邦模型训练。为了展示其应用，提供联邦逻辑回归算法作为例子。</p></li>
 </ol>
-<h2 id="problem-definition">2 Problem Definition</h2>
-<h3 id="vertical-federated-learning">2.1 Vertical Federated
-Learning</h3>
-<p>使用<span class="math inline">\(\mathcal{D}=(\mathcal{I,X,Y})\)</span>表示1个完整的数据集，其中<span class="math inline">\(\mathcal{D,X,Y}\)</span>分别表示样本ID空间、特征空间和标签空间。纵向联邦学习被定义为在2个数据集<span class="math inline">\(\mathcal{D}_1=(\mathcal{I}_1,\mathcal{X}_1,\mathcal{Y}_1)\)</span>和<span class="math inline">\(\mathcal{D}_2=(\mathcal{I}_2,\mathcal{X}_2,\mathcal{Y}_2)\)</span>上，这2个数据集满足：
-<span class="math display">\[
+<h1 id="problem-definition">Problem Definition</h1>
+<h2 id="vertical-federated-learning">Vertical Federated Learning</h2>
+<p>使用 <span class="math inline">\(\mathcal{D}=(\mathcal{I,X,Y})\)</span>
+表示1个完整的数据集，其中 <span class="math inline">\(\mathcal{D,X,Y}\)</span>
+分别表示样本ID空间、特征空间和标签空间。纵向联邦学习被定义为在2个数据集
+<span class="math inline">\(\mathcal{D}_1=(\mathcal{I}_1,\mathcal{X}_1,\mathcal{Y}_1)\)</span>
+和 <span class="math inline">\(\mathcal{D}_2=(\mathcal{I}_2,\mathcal{X}_2,\mathcal{Y}_2)\)</span>
+上，这2个数据集满足： <span class="math display">\[
 \mathcal{X}_{1} \neq \mathcal{X}_{2}, \mathcal{Y}_{1} \neq
 \mathcal{Y}_{2}, \mathcal{I}_{1}=\mathcal{I}_{2}
 \]</span>
-然而在现实应用中，几乎无法找到2个数据集共享相同的ID空间。因此，在纵向联邦学习的预处理阶段有必要引入<code>ID对齐（ID-alignment）</code>协议，以帮助各方安全识别交集<span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span>并建立两个数据集的行映射。</p>
-<p>我们定义<span class="math inline">\(\mathcal{D}_{1}^{o}=\left(\mathcal{I}_{1}^{o},
+然而在现实应用中，几乎无法找到2个共享相同ID空间的数据集。因此，在纵向联邦学习的预处理阶段有必要引入<code>ID对齐（ID-alignment）</code>协议，以帮助各方安全识别交集
+<span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span>
+并建立两个数据集的行映射。</p>
+<p>我们定义 <span class="math inline">\(\mathcal{D}_{1}^{o}=\left(\mathcal{I}_{1}^{o},
 \mathcal{X}_{1},
 \mathcal{Y}_{1}\right)，\mathcal{D}_{2}^{o}=\left(\mathcal{I}_{2}^{o},
-\mathcal{X}_{2}, \mathcal{Y}_{2}\right)\)</span>为关于<span class="math inline">\(\mathcal{D}_1,\mathcal{D}_2\)</span>的<code>预对齐（pre-ID-alignment）数据集</code>，满足<span class="math inline">\(\mathcal{I}_1\in\mathcal{I}_1^o,\mathcal{I}_2\in\mathcal{I}_2^o\)</span>（<span class="math inline">\(\mathcal{I}_i^o\)</span>为对齐前的数据集对应的样本空间）。此外，我们使用<span class="math inline">\(I^w\)</span>表示完整的ID空间，其包含<span class="math inline">\(\mathcal{D}_1^o\)</span>和<span class="math inline">\(\mathcal{D}_2^o\)</span>中的所有可能的元素。</p>
-<figure>
-<img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717100303601.png" alt="image-20220717100303601">
-<figcaption aria-hidden="true">image-20220717100303601</figcaption>
-</figure>
-<h3 id="private-set-intersection">2.2 Private Set Intersection</h3>
-<p>在标准<code>隐私求交(PSI)</code>中，每一个参与方<span class="math inline">\(\mathcal{P}_i\)</span>拥有一个包含所有机密数据的数据集<span class="math inline">\(S_i\)</span>。所有的参与方会协作求出交集<span class="math inline">\(S^\prime=\cap_i{S_i}\)</span>，与此同时每一参与方<span class="math inline">\(\mathcal{P}_i\)</span>保持<span class="math inline">\(S_i / S^\prime\)</span>
+\mathcal{X}_{2}, \mathcal{Y}_{2}\right)\)</span> 为关于 <span class="math inline">\(\mathcal{D}_1,\mathcal{D}_2\)</span>
+的<code>待对齐（pre-ID-alignment）数据集</code>，满足 <span class="math inline">\(\mathcal{I}_1\in\mathcal{I}_1^o,\mathcal{I}_2\in\mathcal{I}_2^o\)</span>（<span class="math inline">\(\mathcal{I}_i^o\)</span>为对齐前的数据集对应的样本空间）。此外，我们使用
+<span class="math inline">\(I^w\)</span> 表示完整的ID空间，其包含 <span class="math inline">\(\mathcal{D}_1^o\)</span> 和 <span class="math inline">\(\mathcal{D}_2^o\)</span> 中的所有可能的元素。</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717100303601.png"></p>
+<h2 id="private-set-intersection">Private Set Intersection</h2>
+<p>在标准<code>隐私求交(PSI)</code>中，每一个参与方 <span class="math inline">\(\mathcal{P}_i\)</span>
+拥有一个包含所有机密数据的数据集<span class="math inline">\(S_i\)</span>。所有的参与方会协作求出交集<span class="math inline">\(S^\prime=\cap_i{S_i}\)</span>，与此同时每一参与方
+<span class="math inline">\(\mathcal{P}_i\)</span> 保持 <span class="math inline">\(S_i / S^\prime\)</span>
 私有。PSI的实现方法可以基于：</p>
 <ul>
 <li>传统的公钥密码体系</li>
 <li>不经意传输</li>
 <li>混淆电路</li>
 </ul>
-<h3 id="symmetrical-and-asymmetrical">2.3 Symmetrical and
-Asymmetrical</h3>
+<h2 id="symmetrical-and-asymmetrical">Symmetrical and Asymmetrical</h2>
+<p>在上面的图1中，<span class="math inline">\(\mathcal{P}_1\)</span> 和
+<span class="math inline">\(\mathcal{P}_2\)</span>
+就待对齐样本的元素数量上拥有同等的地位。事实上，即使<span class="math inline">\(\mathcal{P}_1\)</span>随机选择 <span class="math inline">\(e\in \mathcal{I}^w\)</span>，也会有 <span class="math inline">\(\left|\mathcal{I}_{2}^{o}\right|
+/\left|\mathcal{I}^{w}\right| \gg 0\)</span> 的概率选到 <span class="math inline">\(e\in
+\mathcal{I}^w\)</span>。在这种"<code>强联邦（federation of the strong）</code>"中，每一方都不会在执行PSI协议求交集
+<span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span>
+的过程中掌握很多的信息，因此也不会让对方知道自己很多的ID信息，本文称这种方案为<code>对称纵向联邦学习（Symmetrical Vertical Federated Learning，SVFL）</code>。</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717115752191.png"></p>
+<p>与SVFL相反的情况是 <span class="math inline">\(\mathcal{P}_2\)</span>
+有 <span class="math inline">\(\left|\mathcal{I}_{2}^{o}\right|
+/\left|\mathcal{I}^{w}\right| \approx 0\)</span>，而 <span class="math inline">\(\mathcal{P}_1\)</span> 中有 <span class="math inline">\(\left|\mathcal{I}_{1}^{o}\right|
+/\left|\mathcal{I}^{w}\right| \gg 0\)</span>。</p>
+<p>一种常见的情况是，建立的联邦学习是 <span class="math inline">\(\mathcal{P}_2\)</span>
+的学习任务。纵向联邦数据分布如图2所示， <span class="math inline">\(\mathcal{P}_2\)</span> 是联邦学习中的弱方（weak
+side），因为 <span class="math inline">\(\mathcal{P}_2^o\)</span>
+中每个样本的ID都被视为敏感数据，也就是说在求交 <span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span>
+的过程中其隐私会被严重危害。在这种<code>强弱联邦（federation of the weak and the strong）</code>中，有必要在ID对齐阶段保护弱方的ID隐私，这种方案称为<code>非对称纵向联邦学习（Asymmetrical Vertical Federated Learning, AVFL）</code>。</p>
+<p>不考虑<code>弱联邦（federation of the weak）</code>，因为我们可以通过将全空间
+<span class="math inline">\(\mathcal{I}^w\)</span> 缩减为 <span class="math inline">\(\mathcal{I}^{w}
+\backslash\left(\mathcal{I}_{1}^{o} \cup
+\mathcal{I}_{2}^{o}\right)\)</span> ，从而将”弱联邦“转化为“强联邦”。</p>
+<p><em>（没看懂弱联邦说的是啥）</em></p>
+<p><strong>假设1：</strong><span class="math inline">\(\mathcal{I}^w=\mathcal{I}^0_1\cup
+\mathcal{I}_2^o\)</span></p>
+<p><strong>定义1：</strong></p>
+<ol type="1">
+<li>如果满足以下条件，则称为
+<code>Symmetrically Vertical Federated Learning(SVFL)</code>：</li>
+</ol>
+<p><span class="math display">\[
+-\frac{1}{2} \leq \log _{10}
+\frac{\left|\mathcal{I}_{1}^{o}\right|}{\left|\mathcal{I}^{w}\right|},
+\log _{10}
+\frac{\left|\mathcal{I}_{1}^{o}\right|}{\left|\mathcal{I}^{w}\right|}
+\leq 0
+\]</span></p>
+<ol start="2" type="1">
+<li><p>如果以下两个条件中任意一个等式成立，都可以称为`<code>Asymmetrical Vertical Federated Learning(AVFL)</code>
+： <span class="math display">\[
+\begin{array}{l}
+\log _{10}
+\frac{\left|\mathcal{I}_{1}^{o}\right|}{\left|\mathcal{I}^{w}\right|}&lt;-\frac{1}{2}
+\\
+\log _{10}
+\frac{\left|\mathcal{I}_{2}^{o}\right|}{\left|\mathcal{I}^{w}\right|}&lt;-\frac{1}{2}
+\end{array}
+\]</span> 如果上面的条件成立，<span class="math inline">\(\mathcal{P}_1\)</span>
+可称为<code>弱方</code>，<span class="math inline">\(\mathcal{P}_2\)</span> 称为<code>强方</code>。
+分析：由上面的条件可以得到<span class="math inline">\(\frac{\left|\mathcal{I}_{1}^{o}\right|}{\left|\mathcal{I}^{w}\right|}&lt;10^{\frac{1}{2}}\approx
+0.316\)</span>，即样本数量占比低于0.316的为弱方。</p>
+<p>以上的分析都是两方的，事实上，通过非对称保护弱方的样本ID隐私，可以将分析简单扩展到多方案例。</p></li>
+</ol>
+<h1 id="asymmetrical-id-alignment">Asymmetrical ID Alignment</h1>
+<p>ID对齐是纵向联邦学习工作流的第一步。本节中，我们采用标准PSI协议以实现非对称ID对齐，并提供了一种使用传统密码学的实现方法。</p>
+<h2 id="asymmetrical-psi-protocols">Asymmetrical PSI Protocols</h2>
+<p>在SVFL的样本对齐阶段，标准PSI协议的执行不仅让各方获得共有样本的知识，还提供了一个标签，可以有效地将分布式样本片段链接在一起，为后续的联邦学习铺平道路。而在AVFL中，为了正确实现样本对齐，必须采取满足如下条件的标准PSI协议：</p>
+<ol type="1">
+<li>真实交集 <span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span>
+对强参与方保密</li>
+<li>在联邦模型训练阶段， <span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span>
+对应的分布式样本仍然可以对齐</li>
+</ol>
+<p>使用 <span class="math inline">\(\mathcal{I}_{w}^{o}\)</span> 和
+<span class="math inline">\(\mathcal{I}_{s}^{o}\)</span>
+分别表示待ID对齐的弱方和强方的样本ID集合，二者定义如下： <span class="math display">\[
+\left\{\mathcal{I}_{w}^{o}\right\}=\underset{\mathcal{I}
+\in\left\{\mathcal{I}_{1}^{o},
+\mathcal{I}_{2}^{o}\right\}}{\operatorname{argmin}}|\mathcal{I}|,\left\{\mathcal{I}_{s}^{o}\right\}=\underset{\mathcal{I}
+\in\left\{\mathcal{I}_{1}^{o},
+\mathcal{I}_{2}^{o}\right\}}{\operatorname{argmax}}|\mathcal{I}| .
+\]</span> <strong>定义2</strong>：非对称PSI（Asymmetrical
+PSI，APSI）协议会在双方产生一个扰动集合 <span class="math inline">\(\mathcal{I}^{o b f} \subset
+\mathcal{I}_{s}^{o}\)</span> ，满足： <span class="math display">\[
+\mathcal{I}_{1}=\mathcal{I}_{2} \subset \mathcal{I}^{o b f} \subset
+\mathcal{I}_{s}^{o}
+\]</span> 此外，弱方会知道真实交集 <span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span>。</p>
+<p>APSI协议的结果如图3所示：</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717121516433.png"></p>
+<h2 id="a-pohlig-hellman-realization">A Pohlig-Hellman Realization</h2>
+<p>使用<span class="math inline">\(G_n=(\mathbb{Z}_n^*,
+\cdot)\)</span>表示一个乘法群，而后
+Pohlig-Hellman加密体制可以用以下3个组件进行描述：</p>
+<ol type="1">
+<li><p><strong>(Key generation)</strong> 选择1个素数 <span class="math inline">\(p\)</span> 使得每一个明文元素都是 <span class="math inline">\(G_p\)</span> 中的一个元素，并且 <span class="math inline">\(p-1\)</span>有至少1个大素数因子。然后选择 <span class="math inline">\(a\in G_{p-1}\)</span> 并计算 <span class="math inline">\(a^{-1}\in G_{p-1}\)</span>。最后，一方展示 <span class="math inline">\(G_p\)</span> 作为公共知识，并将<span class="math inline">\((a,
+a^{-1})\)</span>作为<em>对称</em>密码体系的密钥。</p></li>
+<li><p><strong>(Encryption)</strong> 加密明文<span class="math inline">\(m\in G_p\)</span>为： <span class="math display">\[
+E_a(m)=m^a
+\]</span></p></li>
+<li><p><strong>(Decryption)</strong> 解密密文<span class="math inline">\(c\in G_p\)</span>为： <span class="math display">\[
+D_a(c)=c^{a^{-1}}
+\]</span></p></li>
+</ol>
+<p>Pohlig-Hellman加密体制满足<strong>交换律</strong>，也就是说：<span class="math inline">\(\forall a,b\in G_{p-1},E_{a} \circ E_{b}=E_{b}
+\circ
+E_{a}\)</span>。（“先用a加密再用b加密“和”先用b加密再用a加密“的密文相同）。基于Pohlig-Hellman加密的APSI协议如算法1所示：</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717123409736.png"></p>
+<p>其中，<span class="math inline">\(\mathrm{I_i}\)</span>
+表示的是ID的明文，<span class="math inline">\(\mathrm{U}_i\)</span>
+表示的加密1次的密文，<span class="math inline">\(\mathrm{U}_i^\dagger\)</span>
+为加密2次的密文。</p>
+<p>协议思想较为简单，核心在于第7步中，<span class="math inline">\(\mathcal{P}_2\)</span> 会随机选择出<span class="math inline">\(\mathrm{U}_{1}^{\dagger} \cap
+\mathrm{U}_{2}^{\dagger} \subset \mathrm{U}^{o b f \dagger} \subset
+\mathrm{U}_1^\dagger\)</span> ，<span class="math inline">\(\mathrm{U}^{obf\dagger}\)</span>对应的明文除了包含真正的交集外还包含
+<span class="math inline">\(\mathrm{I}_1\)</span> 中的部分数据，但 <span class="math inline">\(\mathcal{I}_1^o\cap \mathcal{I}_2^o
+=\mathcal{I}_{2}^{o} \cap
+\mathcal{I}^{obf}=\mathcal{I}_1=\mathcal{I}_2\)</span>
+的是后续求交运算准确性的基础。</p>
+<p>注意：<code>安全数（secure number）</code><span class="math inline">\(\lambda\)</span>被解释为<strong>模糊交集 <span class="math inline">\(\mathcal{I}^{obf}\)</span></strong>
+与<strong>真实交集 <span class="math inline">\(\mathcal{I}_1=\mathcal{I}_2\)</span></strong>
+的基数比 <span class="math inline">\(h(\lambda)\)</span>
+，详细作用可看算法1。</p>
+<p>也就是说从模糊交集中随机选择一元素，其恰好位于真实交集的概率为 <span class="math inline">\(1/h(\lambda)\)</span> 。进一步地，<span class="math inline">\(h(0)=1\)</span>
+表示的是模糊交集与真实交集完全相同，<span class="math inline">\(\mathcal{P}_1,\mathcal{P}_2\)</span>
+拥有的全都是真实交集，即这种特殊情况下AVFL变成了SVFL。而 <span class="math inline">\(\lambda=1\)</span> 时对应的，<span class="math inline">\(\mathcal{I}^{obf}=\mathcal{I}^1\)</span>，此时
+<span class="math inline">\(\mathcal{P}_1\)</span>
+无法从算法1中获取任何信息。 <strong>随着 <span class="math inline">\(\lambda\)</span> 从0递增到1，<span class="math inline">\(1/h(\lambda)\)</span> 指数递减，因此 <span class="math inline">\(\mathcal{P}_1\)</span>
+更难从模糊交集中分辨出真实交集，更安全</strong>。</p>
+<h1 id="asymmetrical-federated-model-training">Asymmetrical Federated
+Model Training</h1>
+<h2 id="genuine-with-dummy-approcah">Genuine with Dummy Approcah</h2>
+<p>如图3所示，纵向联邦学习学习域中现在包含有<strong>空白（margin）</strong>，也就是说在
+<span class="math inline">\(\mathcal{I}^{obf}/\  \mathcal{I}_1\)</span>
+对应的样本缺少全部的标签和部分特征。虽然联邦迁移学习中可以通过<code>特征表示迁移（ feature-representation-transfer）</code>方法填充这些空白，但是在现实很多应用中，比如金融风险管控中<strong>更倾向于选择少量但准确的原始数据</strong>。</p>
+<p>因此，有必要设计能<strong>够使用APSI协议产生的分布式结构作为输入，但是产生与SVFL相同结果的非对称模型训练协议</strong>。本文展示了一种<code>带虚拟的真实（Genuine with Dummy，GWD）</code>方法以实现非对称模型训练。注意此处需要引入<strong>可行第三方
+<span class="math inline">\(\mathcal{P}_3\)</span></strong>；</p>
+<ol type="1">
+<li><span class="math inline">\(\mathcal{P}_3\)</span>
+产生1个公钥密码系统，将公钥分发给 <span class="math inline">\(\mathcal{P}_1\)</span> 和 <span class="math inline">\(\mathcal{P}_2\)</span></li>
+<li><span class="math inline">\(\mathcal{P}_1\)</span> 与 <span class="math inline">\(\mathcal{P}_2\)</span>
+交换中间变量以协作地计算梯度和损失。 弱方 <span class="math inline">\(\mathcal{P}_2\)</span>
+将会在真实交集中的数据样本上正常执行运算规则，而在虚拟样本执行<strong>数学恒等式运算</strong>，以便它们的存在不会影响相关计算结果</li>
+<li><span class="math inline">\(\mathcal{P}_1\)</span> 与 <span class="math inline">\(\mathcal{P}_2\)</span> 将数据分发给 <span class="math inline">\(\mathcal{P}_3\)</span>
+以完成梯度和损失的解密，并完成局部模型的更新</li>
+</ol>
+<p>为了让强方不知道虚拟样本的存在，一种可行的方式是实现语义安全的加密方案，比如<code>Paillier同态加密</code>。此外，因为引入的恒等式严格保证每一步的中间结果不变，使用GWD方法实现的非对称模型训练将表现出与标准（对称）模型训练方案相同的性能。</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220717154849377.png"></p>
+<p>图4展示了GWD架构，其展示了一个通用子例程的联邦执行过程。弱方将会发送密文消息
+<span class="math inline">\(v_1,v_2\)</span>
+给强方，然后等待来自强方关于 <span class="math inline">\(subroutine(v_1,v_2)\)</span> 的执行结果
+。由于直接传输会泄露真实ID信息。因此，弱方在发送 <span class="math inline">\(v_1,v_2\)</span>
+的同时会加上关于虚假样本的数学等价符 <span class="math inline">\(e_1,e_2\)</span> ，最终会收到 <span class="math inline">\(subroutine(v_1,v_2,e_1,e_2)=
+subroutine(v_1,v_2)\)</span>。此外，强方会运算 <span class="math inline">\(subroutine(\cdot)\)</span> ，
+而不会察觉真实ID。</p>
+<p><em>（没看懂得1和2的关系，以及为啥要加e）</em></p>
+<h2 id="asymmetrical-vertical-logistic-regression">Asymmetrical Vertical
+Logistic Regression</h2>
+<p>不妨先看看<a target="_blank" rel="noopener" href="https://arxiv.org/pdf/1911.09824.pdf">Shengwen
+Yang, Bing Ren, Xuhui Zhou, and Liping Liu. Parallel distributed
+logistic regression for vertical federated learning without third-party
+coordinator. arXiv preprint arXiv:1911.09824,
+2019.</a>中的无协调者的纵向联邦逻辑回归训练方案：</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718120809184.png"></p>
+<p>Party A 拥有 <span class="math inline">\(x_{A}, \Theta_{A},
+y\)</span>，而Party B 拥有 <span class="math inline">\(x_{B},
+\Theta_{B}\)</span>，这些数据都是不能直接明文传输的。</p>
+<p>Step 3 中Party A 向 Party B传输同态密文<span class="math inline">\([\![(y_i-\hat{y_i})]\!]\)</span>
+的原因在于明文的<strong><span class="math inline">\((y_i-\hat{y_i})\)</span>
+在分类任务中会泄露信息</strong>，由于<span class="math inline">\(0\le\hat{y_i}\le1\)</span>，真实标签<span class="math inline">\(y_i=0\)</span> 则式子为负数，<span class="math inline">\(y_i=1\)</span>
+则对应式子为正数。补充：这在梯度泄露攻击中是一种常用的恢复真实标签的方法。</p>
+<p><em>（不明白计算机是怎么计算梯度的，仅利用加法同态就能计算出梯度？）</em></p>
+<p>接着再看以<strong>无协调者的纵向联邦逻辑回归训练</strong>为基础，使用<code>GWD</code>方法将其调整为不对称的训练协议，然后使用算法2中提出的非对称纵向逻辑回归（AVLR）训练协议进行训练。（注意：<span class="math inline">\(\mathcal{P}_1\)</span> 对应上表中的Party A，而
+<span class="math inline">\(\mathcal{P}_2\)</span> 对应上表中的Party
+B）</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718121752417.png"></p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718121809066.png"></p>
+<p>算法2的核心在于第5、6步中让弱方<span class="math inline">\(\mathcal{P}_2\)</span>
+共享加密的<code>标量（scalars）</code><span class="math inline">\(\left\langle\phi_{i
+k}\right\rangle\)</span>，以便让<span class="math inline">\(\mathcal{P}_1\)</span> 计算出加密的本地梯度<span class="math inline">\(\left\langle\nabla^{s}
+\mathcal{L}\left(\mathbf{w}_{k}\right)\right\rangle\)</span>，标量<span class="math inline">\(\left\langle\phi_{i k}\right\rangle\)</span>
+的提出直接体现了<code>GWD</code>的思想。</p>
+<p><span class="math inline">\(\mathcal{P}_1\)</span> 会在 <span class="math inline">\(\mathcal{I}_k^{obf}\)</span> 对应的样本上计算梯度
+<span class="math inline">\(\left\langle\left|\mathcal{I}_{1}^{o} \cap
+\mathcal{I}_{2}^{o}\right| \cdot \nabla^{s}
+\mathcal{L}\left(\mathbf{w}_{k}\right)\right\rangle=\sum_{e_{i} \in
+\mathcal{I}^{o b f}}\left\langle\phi_{i k}\right\rangle
+\mathbf{x}_{i}^{s}\)</span>，注意对应明文的系数为 <span class="math inline">\(|\mathcal{I}_1^o\cap\mathcal{I}_2^o|\)</span>，虽然
+<span class="math inline">\(\mathcal{P}_1\)</span>
+不知道系数（即其连交集结果的基数cardinality都不知道），但是这个除系数的操作是通过将密文发送给
+<span class="math inline">\(\mathcal{P}_2\)</span>
+，让其在掩码下完成除系数操作。</p>
+<p>这里是通过<code>哈达玛乘积（Hadamard Product）</code>添加掩码的，Hadamard
+Product是一种对两同型矩阵进行的运算： <span class="math display">\[
+(A \circ B)_{i j}=(A)_{i j}(B)_{i j}
+\]</span>
+即是逐元素添加模乘的掩码。由于明文运算的需要，这里<strong>只能添加模乘掩码</strong>，不能添加模加掩码，掩码的本质是一次一密，模加和模乘都可以，但这里计算输出时是需要消除掩码的，为了消除模乘的掩码，操作需要在域上进行操作（不能仅仅是环）。</p>
+<h1 id="experiments">Experiments</h1>
+<p>实验将验证<code>APSI+AVLR</code>协议的可行性，并与对称型协议进行对比。</p>
+<h2 id="settings">Settings</h2>
+<ul>
+<li><p>框架：FATE</p></li>
+<li><p>硬件：两方都使用4核心，16 GB RAM的腾讯云服务器</p></li>
+<li><p>数据集：MNIST——60000个样本，每个样本784个特征（输入的像素）</p>
+<p>处理方式：手工为每一个样本分配一个ID，划分和分配的规则如下表所示：</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718125443368.png"></p></li>
+</ul>
+<p>联邦训练将会在 <span class="math inline">\(\mathcal{P}_1\)</span> 和
+<span class="math inline">\(\mathcal{P}_2\)</span>
+共有的10000个样本上进行（因此，预计训练性能不如其他将整个数据集作为输入的算法，但不影响验证和比较）。</p>
+<h2 id="numerical-results">Numerical Results</h2>
+<p>超参数设置：学习率 <span class="math inline">\(\eta=0.15\)</span>，迭代次数<span class="math inline">\(=150\)</span></p>
+<p>不断增加安全数（security numbers），即<span class="math inline">\(\lambda=0,\ 0.25,\ 0.5,\ 0.75,\ 1\)</span>
+分别进行测试，记录各种情况下训练的损失和AUC，并绘制出模糊轨迹图：</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718130543639.png"></p>
+<p>由图5可见，训练的损失不随安全数 <span class="math inline">\(\lambda\)</span> 变化而变化。注意：<strong><span class="math inline">\(\lambda=0\)</span> 对应的对称型 和<span class="math inline">\(\lambda= 1\)</span>对应的<span class="math inline">\(\mathcal{I}^{obf}=\mathcal{I}_i^o\)</span>
+的情况对应的训练损失表现是相同的</strong>。</p>
+<p><img src="/2022/07/16/2021-Asymmetrical%20Vertical%20Federated%20Learning-%E7%AC%94%E8%AE%B0/image-20220718130909464.png"></p>
+<p><a href="如何理解机器学习和统计中的AUC？%20-%20无涯的回答%20-%20知乎%20https://www.zhihu.com/question/39840928/answer/241440370">AUC</a>是一个用于评价二分类模型的模型评价指标，为ROC曲线下的图形面积。<em>（不清楚MNIST对应的并不为二分类问题，不知道为啥能用）</em></p>
+<p>由图6可见，不同<span class="math inline">\(\lambda\)</span>
+对应的AUC曲线的趋势相近。</p>
+<p>实验验证：在引入数学恒等式的概念后，<code>APSI+AVLR协议</code>拥有与对称纵向联邦学习拥有相同的表现。</p>
 
     </div>
 
@@ -270,7 +497,7 @@ Asymmetrical</h3>
       <footer class="post-footer">
           <div class="post-tags">
               <a href="/tags/%E9%9A%90%E7%A7%81%E8%AE%A1%E7%AE%97/" rel="tag"># 隐私计算</a>
-              <a href="/tags/PIS/" rel="tag"># PIS</a>
+              <a href="/tags/PSI/" rel="tag"># PSI</a>
               <a href="/tags/%E8%81%94%E9%82%A6%E5%AD%A6%E4%B9%A0/" rel="tag"># 联邦学习</a>
           </div>
 
@@ -279,11 +506,11 @@ Asymmetrical</h3>
 
         
     <div class="post-nav">
-      <div class="post-nav-item">
-    <a href="/2022/07/16/hello-world/" rel="prev" title="Hello World">
-      <i class="fa fa-chevron-left"></i> Hello World
-    </a></div>
       <div class="post-nav-item"></div>
+      <div class="post-nav-item">
+    <a href="/2022/07/17/2022-%E9%9A%90%E7%A7%81%E6%B1%82%E4%BA%A4%E6%8A%80%E6%9C%AF%E7%9A%84%E5%8E%9F%E7%90%86%E3%80%81%E5%8F%91%E5%B1%95%E5%8F%8A%E5%BA%94%E7%94%A8-%E7%AC%94%E8%AE%B0/" rel="next" title="隐私求交技术的原理、发展及应用">
+      隐私求交技术的原理、发展及应用 <i class="fa fa-chevron-right"></i>
+    </a></div>
     </div>
       </footer>
     
@@ -342,9 +569,9 @@ Asymmetrical</h3>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#abstract"><span class="nav-number">1.</span> <span class="nav-text">Abstract</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#introduction"><span class="nav-number">2.</span> <span class="nav-text">1 Introduction</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#problem-definition"><span class="nav-number">3.</span> <span class="nav-text">2 Problem Definition</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#vertical-federated-learning"><span class="nav-number">3.1.</span> <span class="nav-text">2.1 Vertical Federated
-Learning</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#private-set-intersection"><span class="nav-number">3.2.</span> <span class="nav-text">2.2 Private Set Intersection</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#symmetrical-and-asymmetrical"><span class="nav-number">3.3.</span> <span class="nav-text">2.3 Symmetrical and
-Asymmetrical</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#introduction"><span class="nav-number">1.</span> <span class="nav-text">Introduction</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#problem-definition"><span class="nav-number">2.</span> <span class="nav-text">Problem Definition</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#vertical-federated-learning"><span class="nav-number">2.1.</span> <span class="nav-text">Vertical Federated Learning</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#private-set-intersection"><span class="nav-number">2.2.</span> <span class="nav-text">Private Set Intersection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#symmetrical-and-asymmetrical"><span class="nav-number">2.3.</span> <span class="nav-text">Symmetrical and Asymmetrical</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#asymmetrical-id-alignment"><span class="nav-number">3.</span> <span class="nav-text">Asymmetrical ID Alignment</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#asymmetrical-psi-protocols"><span class="nav-number">3.1.</span> <span class="nav-text">Asymmetrical PSI Protocols</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#a-pohlig-hellman-realization"><span class="nav-number">3.2.</span> <span class="nav-text">A Pohlig-Hellman Realization</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#asymmetrical-federated-model-training"><span class="nav-number">4.</span> <span class="nav-text">Asymmetrical Federated
+Model Training</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#genuine-with-dummy-approcah"><span class="nav-number">4.1.</span> <span class="nav-text">Genuine with Dummy Approcah</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#asymmetrical-vertical-logistic-regression"><span class="nav-number">4.2.</span> <span class="nav-text">Asymmetrical Vertical
+Logistic Regression</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#experiments"><span class="nav-number">5.</span> <span class="nav-text">Experiments</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#settings"><span class="nav-number">5.1.</span> <span class="nav-text">Settings</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#numerical-results"><span class="nav-number">5.2.</span> <span class="nav-text">Numerical Results</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -367,7 +594,7 @@ Asymmetrical</span></a></li></ol></li></ol></div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
